@@ -1,0 +1,51 @@
+from scrapy.spider import BaseSpider
+from scrapy.selector import HtmlXPathSelector
+from spider.items import SpiderItem
+from mySpider import getAll, getDomain, getStartURL, getFilter
+import json
+import datetime, calendar
+import os
+import dboperator
+
+def getToday():
+	year=str(datetime.date.today())[0:4]
+	month=str(datetime.date.today())[5:7]
+	day=str(datetime.date.today())[8:10]
+	return str(year+month+day)
+
+def getCurrentTime():
+	return str(datetime.datetime.now())[11:26]
+
+class SpiderSpider(BaseSpider):
+	name = "huwai"
+	domain = getDomain()
+	url = getStartURL()
+	allowed_domains = [domain]
+	start_urls = [url]
+
+	def parse(self, response):
+		filename = getCurrentTime()
+		filefolder = "./"+getToday()+"/"+getDomain()
+
+		if not os.path.exists(filefolder):
+			os.makedirs(filefolder)
+		
+		self.file=open(filefolder+"/"+filename, 'wb')
+		hxs = HtmlXPathSelector(response)
+		ff=getFilter()
+		sites = hxs.select(ff)	
+		items = []
+		filters = getAll()
+		for site in sites:
+			item = SpiderItem()
+			for name in item.innerItem:
+				extdata=site.select(filters[name]).extract()
+				if len(extdata) > 0:
+					item.innerItem[name] = extdata[0]
+			items.append(item.innerItem)
+			print item.innerItem
+			line = json.dumps(dict(item.innerItem))+"\n"
+			self.file.write(line)
+		self.file.close()
+
+
