@@ -1,0 +1,23 @@
+*{ margin:0; padding:0;}
+body{ font:16px Verdana, Arial, Helvetica, sans-serif;}
+ul{ list-style:none;}
+
+.menu_tab{ width:966px; margin:0 auto; }
+.menu{ overflow:hidden;}
+.outer{ background:url("images/menu_sprites.png") no-repeat top left; margin-top:10px; padding-left:15px;}
+.inner{ background:url("images/menu_sprites.png") no-repeat top right; padding-right:5px;}
+.menu ul{ background:url("images/menu_sprites.png") repeat-x 0 -102px; height:34px; }
+.menu li{ float:left; width:auto !important; width:1%; white-space:nowrap; padding:0 5px; background:url("images/menu_sprites.png") no-repeat bottom left;}
+.menu li a{ display:block; text-decoration:none; padding-left:15px; cursor:pointer;}
+.menu li a span { display:block;height:34px; line-height:34px; color:white; padding-right:15px;}
+
+.menu li.selected a { background:url("images/menu_sprites.png") no-repeat left -34px;}
+.menu li.selected a span { background:url("images/menu_sprites.png") no-repeat right -34px; color:orange; font-weight:bold;}
+
+.menu_content ul{ border:1px solid #ccc; border-top:none; height:1%; overflow:hidden; background:url("images/secdM_normal.png") repeat-x;}
+.menu_content li{ float:left; }
+.menu_content li a{ float:left; display:block; height:30px; line-height:30px; padding:0 10px; text-decoration:none; color:#666;}
+.menu_content li a:hover{ text-decoration:underline; color:black;}
+
+
+
