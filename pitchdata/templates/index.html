@@ -1,6 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<style>
+#hidetable{display:none}
+table.mytable td{
+	background-color:lightgrey;
+	font-family:"Verdana";
+	font-size:0.8em;
+}
+table.mytable th{
+	background-color:darkgrey;
+	font-family:"Verdana";
+	font-size:0.9em;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title>远航户外</title>
 <link rel="stylesheet" type="text/css" href="{{ static_url("layout.css") }}"/>
@@ -14,19 +27,71 @@
 <div class="menu_tab">
 	<div class="menu outer">
 		<div class="inner">
-			<ul>
-				<li class="selected" style="background:none;"><a href="#">活动</a></li>
-				<li><a href="#">活动1</a></li>
-				<li><a href="#">活动2</a></li>
-				<li><a href="#">活动3</a></li>
+			<ul>	
+				<li class="selected" style="background:none;"><a href="#">更新</a></li-->
+				<li><a href="#">删除</a></li>
+				<li><a href="#">预览</a></li>
+				<!--li><a href="#">活动3</a></li-->
 			</ul>
 		</div>
 	</div>
 	<div class="menu_content">
 		<ul>
+			<div>
+			<table  width=100%>
+				<tbody>
+				{% for entry in entries %}
+					 <form action="/update" method="post" class="update" id="formaction">
+					{% for k in entry %}
+					<tr>
+					{%if cmp(k, "_id")!=0 %}
+						{%if cmp(k, "uuid") ==0 %}
+							<div id="hidetable"><input type="text" name="uuid" value="{{entry[k]}}"/></div>
+						{%else%}
+							<td width="10%">{{k}}:</td>
+							<td width="90%"><input size=70% name="{{k}}" value="{{entry[k]}}"/></td>
+						{%end%}
+					{%end%}
+					</tr>
+					{% end %}
+					<tr><td></td><td><input type="submit" class="update" value="更新"></input></td></tr>
+					</form>
+		 		{% end %}
+				</tbody>
+			</table>
+			</div>
+		</ul>
+
+		<ul>
+			<div>
+			<table  width=100%>
+				<tbody>
+				{% for entry in entries %}
+					 <form action="/archive" method="post" class="archive" id="formaction">
+					{% for k in entry %}
+					<tr>
+					{%if cmp(k, "_id")!=0 %}
+						{%if cmp(k, "uuid") ==0 %}
+							<div id="hidetable"><input type="text" name="uuid" value="{{entry[k]}}"/></div>
+						{%else%}
+							<td width="10%">{{k}}:</td>
+							<td>{{entry[k]}}</td>
+						{%end%}
+					{%end%}
+					</tr>
+					{% end %}
+					<tr><td></td><td><input type="submit" class="remove" value="删除"></input></td></tr>
+					</form>
+		 		{% end %}
+				</tbody>
+			</table>
+			</div>
+		</ul>
+
+		<ul>
 		<div id="container">
 		<div id="content">
-		{%for i in range(len(entries))%}
+		{%for i in range(len(entries1))%}
 		<div id="mergin1">	
 			<table  width=100%>
 				<tbody>
@@ -35,28 +100,7 @@
 							<a href={{entries[i]["link"]}} target="_blank"><img src="{{static_url("thumb1.jpg")}}" /></a>
 						</td>
 						<td width="35%">
-							<h4 class="blue"><a  href={{entries[i]["link"]}} target="_blank" title={{entries[i]["title"]}}>{{entries[i]["title"]}}</a></h4>
-							<p>
-								<span>组织者：{{entries[i]["organizername"]}}</span>
-							</p>
-							<p>
-								<span>活动类型：{{entries[i]["activityclass"]}}</span>
-							</p>
-							<p >
-								<span>{{entries[i]["place"]}}</span>
-							</p>
-							<p>
-								<span>{{entries[i]["time"]}}</span>
-							</p>
-							<p>
-								<span >目前热度：<font color="red">{{entries[i]["hotnumber"]}}</font></span>
-							</p>
-						</td>
-						<td width="15%">
-							<a href={{entries1[i]["link"]}}  target="_blank"><img src="{{static_url("thumb1.jpg")}}" /></a>
-						</td>
-						<td width="35%">
-							<h4 class="blue"><a  href={{entries1[i]["link"]}} target="_blank" title={{entries1[i]["title"]}}>{{entries1[i]["title"]}}</a></h4>
+							<h4 class="blue"><a  href={{entries[i]["link"]}} target="_blank" title={{entries[i]["title"]}}>{{entries1[i]["title"]}}</a></h4>
 							<p>
 								<span>组织者：{{entries1[i]["organizername"]}}</span>
 							</p>
@@ -64,13 +108,34 @@
 								<span>活动类型：{{entries1[i]["activityclass"]}}</span>
 							</p>
 							<p >
-								<span>{{entries1[i]["place"]}}</span>
+								<span>活动地点：{{entries1[i]["place"]}}</span>
 							</p>
 							<p>
-								<span>{{entries1[i]["time"]}}</span>
+								<span>活动时间：{{entries1[i]["time"]}}</span>
 							</p>
 							<p>
-								<span>目前热度：<font color="red">{{entries1[i]["hotnumber"]}}</font></span>
+								<span >目前热度：<font color="red">{{entries1[i]["hotnumber"]}}</font></span>
+							</p>
+						</td>
+						<td width="15%">
+							<a href={{entries1[i]["link"]}}  target="_blank"><img src="{{static_url("thumb1.jpg")}}" /></a>
+						</td>
+						<td width="35%">
+							<h4 class="blue"><a  href={{entries1[i]["link"]}} target="_blank" title={{entries1[i]["title"]}}>{{entries2[i]["title"]}}</a></h4>
+							<p>
+								<span>组织者：{{entries2[i]["organizername"]}}</span>
+							</p>
+							<p>
+								<span>活动类型：{{entries2[i]["activityclass"]}}</span>
+							</p>
+							<p >
+								<span>活动地点：{{entries2[i]["place"]}}</span>
+							</p>
+							<p>
+								<span>活动时间：{{entries2[i]["time"]}}</span>
+							</p>
+							<p>
+								<span>目前热度：<font color="red">{{entries2[i]["hotnumber"]}}</font></span>
 							</p>
 						</td>
 					</tr>
@@ -79,16 +144,10 @@
 			</div>
 		{%end%}
 		</div>
-		  <div id="sidebar">believe</div>
+		 <div id="sidebar">滚动新闻区域</div>
 		</div>
-
 		</ul>
-		<ul>
-			建站中......
-		</ul>
-		<ul>
-			建站中......
-		</ul>
+		
 		<ul>
 			建站中......
 		</ul>

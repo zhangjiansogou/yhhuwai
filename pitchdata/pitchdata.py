@@ -27,16 +27,15 @@ import os.path
 
 define("port", default=8888, help="run on the given port", type=int)
 
-
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         #self.render("index.html")
-	self.redirect("/name")
+	self.redirect("/main")
 
 class NameHandler(tornado.web.RequestHandler):
 	def get(self):
-		self.dbase = dboperator.Dboperator()
-		stra = list(self.dbase.getAllDatafromBase())
+		self.dbase = dboperator.DB()
+		stra = list(self.dbase.find(data="all"))
 		self.render("home.html", entries=stra)
 
 class ArchiveHandler(tornado.web.RequestHandler):
@@ -44,10 +43,31 @@ class ArchiveHandler(tornado.web.RequestHandler):
 		self.write("Good")
 
 	def post(self):
-		self.dbase = dboperator.Dboperator()
+		self.dbase = dboperator.DB()
 		uuid=self.get_argument("uuid")
-		self.dbase.removeDatafromBase({"uuid":uuid})
-		self.redirect("/name")
+		self.dbase.remove({"uuid":uuid})
+		self.redirect("/main")
+
+class UpdateHandler(tornado.web.RequestHandler):
+	def get(self):
+		self.write("Good")
+
+	def post(self):
+		self.dbase = dboperator.DB()
+		uuid=self.get_argument("uuid")
+		title=self.get_argument("title")
+		imageurl=self.get_argument("imageurl")
+		organizername=self.get_argument("organizername")
+		rank=self.get_argument("rank")
+		activityclass=self.get_argument("activityclass")
+		link=self.get_argument("link")
+		time=self.get_argument("time")
+		place=self.get_argument("place")
+		hotnumber=self.get_argument("hotnumber")
+		print rank
+		self.dbase.update({"title":title, "imageurl":imageurl,"organizername":organizername,"rank":rank,"activityclass":activityclass,"link":link,"time":time,"place":place,"hotnumber":hotnumber},{"uuid":uuid})
+		self.redirect("/main")
+
 
 class RemoveHandler(tornado.web.RequestHandler):
 	def get(self):
@@ -55,16 +75,16 @@ class RemoveHandler(tornado.web.RequestHandler):
 
 class MainPageHandler(tornado.web.RequestHandler):
 	def get(self):
-		self.dbase = dboperator.Dboperator()
-		stra = list(self.dbase.getAllDatafromBase())
+		self.dbase = dboperator.DB()
+		stra = list(self.dbase.find(data="all"))
 		l=len(stra)/2
-		entries=[]
 		entries1=[]
+		entries2=[]
 		for i in range(l):
-			entries.append(stra[i])
-			entries1.append(stra[i+l])
+			entries1.append(stra[i])
+			entries2.append(stra[i+l])
 		#handler data for outputing
-		self.render("index.html", entries=entries, entries1=entries1)
+		self.render("index.html", entries1=entries1, entries2=entries2, entries=stra)
 
 
 class Application(tornado.web.Application):
@@ -74,6 +94,7 @@ class Application(tornado.web.Application):
 			(r"/name", NameHandler),
 			(r"/archive", ArchiveHandler),
 			(r"/remove", RemoveHandler),
+			(r"/update", UpdateHandler),
 			(r"/main", MainPageHandler)
 		    ]
 		settings = dict(
@@ -83,12 +104,6 @@ class Application(tornado.web.Application):
 		)
 
 	        tornado.web.Application.__init__(self, handlers, **settings)
-
-	        ## Have one global connection to the blog DB across all handlers
-	        #self.db = tornado.database.Connection(
-	        #    host=options.mysql_host, database=options.mysql_database,
-	        #   user=options.mysql_user, password=options.mysql_password)
-
 
 def main():
     tornado.options.parse_command_line()
