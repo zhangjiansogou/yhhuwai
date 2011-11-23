@@ -1,0 +1,9 @@
+1. For crawl images, must install imagepipelines, and make it avaiable.
+
+
+2. Support crawl images of activity.
+3. The order of data got from database is desending.
+4. Support change the rank value for making the one display at top of the page.
+5. Support delete the unuseful data.
+6. Support update the information of anyfields.
+7. Now avaiable for crawling 517huwai and lvye 
