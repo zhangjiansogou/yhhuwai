@@ -47,6 +47,9 @@ table.mytable th{
 					{%if cmp(k, "_id")!=0 %}
 						{%if cmp(k, "uuid") ==0 %}
 							<div id="hidetable"><input type="text" name="uuid" value="{{entry[k]}}"/></div>
+						{%elif cmp(k, "imageurl") == 0%}
+							<td><img src="{{static_url(entry[k]["localurl"])}}"</td>
+<td width="90%"><input size=70% name="{{k}}" value="{{entry[k]["localurl"]}}"/></td>
 						{%else%}
 							<td width="10%">{{k}}:</td>
 							<td width="90%"><input size=70% name="{{k}}" value="{{entry[k]}}"/></td>
@@ -73,6 +76,9 @@ table.mytable th{
 					{%if cmp(k, "_id")!=0 %}
 						{%if cmp(k, "uuid") ==0 %}
 							<div id="hidetable"><input type="text" name="uuid" value="{{entry[k]}}"/></div>
+						{%elif cmp(k, "imageurl") == 0%}
+							<td width="10%">{{k}}:</td>
+							<td><img src="{{static_url(entry[k]["localurl"])}}"</td>
 						{%else%}
 							<td width="10%">{{k}}:</td>
 							<td>{{entry[k]}}</td>

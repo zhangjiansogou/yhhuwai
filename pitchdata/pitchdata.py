@@ -65,7 +65,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 		place=self.get_argument("place")
 		hotnumber=self.get_argument("hotnumber")
 		print rank
-		self.dbase.update({"title":title, "imageurl":imageurl,"organizername":organizername,"rank":rank,"activityclass":activityclass,"link":link,"time":time,"place":place,"hotnumber":hotnumber},{"uuid":uuid})
+		self.dbase.update({"title":title, "imageurl.localurl":imageurl,"organizername":organizername,"rank":rank,"activityclass":activityclass,"link":link,"time":time,"place":place,"hotnumber":hotnumber},{"uuid":uuid})
 		self.redirect("/main")
 
 
