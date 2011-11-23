@@ -97,10 +97,10 @@ table.mytable th{
 				<tbody>
 					<tr>
 						<td width="15%">
-							<a href={{entries[i]["link"]}} target="_blank"><img src="{{static_url("thumb1.jpg")}}" /></a>
+							<a href={{entries1[i]["link"]}} target="_blank"><img src="{{static_url(entries1[i]["imageurl"]["localurl"])}}" /></a>
 						</td>
 						<td width="35%">
-							<h4 class="blue"><a  href={{entries[i]["link"]}} target="_blank" title={{entries[i]["title"]}}>{{entries1[i]["title"]}}</a></h4>
+							<h4 class="blue"><a  href={{entries1[i]["link"]}} target="_blank" title={{entries1[i]["title"]}}>{{entries1[i]["title"]}}</a></h4>
 							<p>
 								<span>组织者：{{entries1[i]["organizername"]}}</span>
 							</p>
@@ -118,10 +118,10 @@ table.mytable th{
 							</p>
 						</td>
 						<td width="15%">
-							<a href={{entries1[i]["link"]}}  target="_blank"><img src="{{static_url("thumb1.jpg")}}" /></a>
+							<a href={{entries2[i]["link"]}}  target="_blank"><img src="{{static_url(entries2[i]["imageurl"]["localurl"])}}" /></a>
 						</td>
 						<td width="35%">
-							<h4 class="blue"><a  href={{entries1[i]["link"]}} target="_blank" title={{entries1[i]["title"]}}>{{entries2[i]["title"]}}</a></h4>
+							<h4 class="blue"><a  href={{entries2[i]["link"]}} target="_blank" title={{entries2[i]["title"]}}>{{entries2[i]["title"]}}</a></h4>
 							<p>
 								<span>组织者：{{entries2[i]["organizername"]}}</span>
 							</p>

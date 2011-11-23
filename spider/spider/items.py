@@ -8,6 +8,8 @@ from mySpider import getList
 
 class SpiderItem(Item):
     # define the fields for your item here like:
+	image_urls = Field()
+	image_paths = Field()
 	innerItem={}
 	namelist = getList()
 	for item in namelist:

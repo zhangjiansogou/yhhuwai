@@ -14,7 +14,7 @@ class ActivityData(Document):
 	structure = {
 		'title':unicode,
 		'link':unicode,
-		'imageurl':unicode,
+		'imageurl':{"originurl":unicode,"localurl":unicode},
 		'organizername':unicode,
 		'activityclass':unicode,
 		'place':unicode,
@@ -24,7 +24,7 @@ class ActivityData(Document):
 		'date_creation':datetime.datetime,
 		'rank':int
 	}
-	required_fields = ['title','link','imageurl','organizername','activityclass','place','time','hotnumber']
+	required_fields = ['title','link','imageurl.originurl','imageurl.localurl','organizername','activityclass','place','time','hotnumber']
  	default_values = {'uuid':str(uuid.uuid4()),
 'rank':0, 'date_creation':datetime.datetime.utcnow}
 
@@ -72,19 +72,9 @@ class DB:
 	def update(self, data, criteria):
 		if type(data) is types.DictType:
 			if type(criteria) is types.DictType:
-				#self.collection.update(criteria, data, True)
 				self.collection.update(criteria, {'$set':data})
 			else:
 				raise DBException("The second paramter's type is wrong, please check.")
 		else:
 			raise DBException("The second paramter's type is wrong, please check.")
-
-#a = DB()
-
-#a.save({'rank':5,'title':u"abc",'link':u"abc",'imageurl':u"abc",'organizername':u"abc",'activityclass':u"abc",'place':u"abc",'time':u"abc",'hotnumber':u"abc"})
-#a.remove({'title':u'abc'})
-#a.update({'title':u'abc', 'author':u'Updated','rank':1}, {'title':u'abc'})
-#print type(u'zhangjian')
-#print a.find(page=1,number=1)
-#a.setRank({'title': u'abc'}, {'rank':2})
 

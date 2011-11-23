@@ -20,11 +20,13 @@ class SpiderSpider(BaseSpider):
 		sites = hxs.select(ff)
 		filters = getAll()
 		preurl= getDomain()
-		print preurl
+
+		imageitems=[]
+
 		for site in sites:
 			item = SpiderItem()
 			add = True
-			haha={}
+			oneItem={}
 			db= dboperator.DB()
 			for name in item.innerItem:
 				exdata  = site.select(filters[name]).extract()
@@ -33,7 +35,10 @@ class SpiderSpider(BaseSpider):
 					break
 				else:
 					if cmp("link", name) == 0 and exdata[0].find("http://") == -1:
-						haha[name] = "http://"+preurl+exdata[0]
+						oneItem[name] = "http://"+preurl+exdata[0]
+					elif cmp("imageurl", name) == 0 and exdata[0].find("http://") == -1:
+						oneItem[name] = {"originurl":"http://"+preurl+exdata[0], "localurl":""}
+						item["image_urls"] = oneItem[name]["originurl"]
 					elif cmp("place", name) == 0:
 						if exdata[0].find("<") != -1:
 							place = exdata[0].split(">")	
@@ -43,9 +48,9 @@ class SpiderSpider(BaseSpider):
 							while 1 < len(place):
 								place2 += place[0].split("<")[0]
 								place.remove(place[0])
-							haha[name] = place2[5:]
+							oneItem[name] = place2[5:]
 						else:
-							haha[name] = exdata[0][5:]
+							oneItem[name] = exdata[0][5:]
 					elif cmp("time", name) ==0:
 						if exdata[0].find("<") !=-1:
 							timestr = exdata[0].split(">")	
@@ -55,9 +60,9 @@ class SpiderSpider(BaseSpider):
 							while 1 < len(timestr):
 								timestr2 += timestr[0].split("<")[0]
 								timestr.remove(timestr[0])
-							haha[name] = timestr2[5:]
+							oneItem[name] = timestr2[5:]
 						else:
-							haha[name] = exdata[0][5:]
+							oneItem[name] = exdata[0][5:]
 					elif cmp("hotnumber", name) == 0 and exdata[0].find("<") != -1:	
 						hotstr = exdata[0].split(">")	
 						hotstr.remove(hotstr[0])
@@ -66,10 +71,13 @@ class SpiderSpider(BaseSpider):
 						while 1 < len(hotstr):
 							hotstr2 += hotstr[0].split("<")[0]
 							hotstr.remove(hotstr[0])
-						haha[name] = hotstr2
+						oneItem[name] = hotstr2
 					else:
-						haha[name] = exdata[0]
+						oneItem[name] = exdata[0]
+						
 
 			if add:
-				db.save(haha)
+				db.save(oneItem)
+				imageitems.append(item)
+		return imageitems
 
