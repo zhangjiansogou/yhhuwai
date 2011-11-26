@@ -57,7 +57,6 @@ class DB:
 			return self.collection.find().sort('rank', pymongo.DESCENDING).skip((page-1)*number).limit(number)
 		if type(data) is types.DictType:
 			return self.collection.find(data).sort('rank', pymongo.DESCENDING).skip((page-1)*number).limit(number)
-			
 		else:
 			raise DBException("Wrong Data type, please check.")
 	
